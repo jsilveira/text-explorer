@@ -89,7 +89,7 @@ function TextExplorerCtrl($scope, $sce, $timeout) {
         default:
           console.error("Unknown message", msg);
       }
-      console.log('Worker said: ', msg);
+      // console.log('Worker said: ', msg);
     });
   }, false);
 
@@ -115,4 +115,14 @@ function TextExplorerCtrl($scope, $sce, $timeout) {
 
     return  $sce.trustAsHtml(texto);
   };
+
+  $scope.loadingFileProgress = function(progress){
+    $scope.$apply(() => $scope.status = progress)
+  }
+
+  $scope.fileLoaded = function(fileContent, fileName){
+    $scope.partial = true
+    $scope.$apply(() => $scope.status = "Sending file to service worker...")
+    worker.postMessage({action: 'loadFile', fileText: fileContent}); // Send data to our worker.
+  }
 }

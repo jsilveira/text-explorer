@@ -68,12 +68,21 @@ function getJSON(url, sucessCbk, errCbk = ()=>console.error(err)) {
 
 function log(msg) {
   self.postMessage({action: 'status', message: msg})
+  if(msg) console.debug(msg)
 }
 
 self.addEventListener('message', function (msg) {
   switch (msg.data.action) {
     case 'search':
       search(new RegExp(msg.data.query, "ig"));
+      break;
+    case 'loadFile':
+      try {
+        log("Parsing file as JSON...")
+        parseData(JSON.parse(msg.data.fileText))
+      } catch (err){
+        log("Error loading file: "+err)
+      }
       break;
     default:
       console.error("Unknown message action", msg.data);
@@ -84,7 +93,6 @@ let stringTest = [];
 let items = [];
 let filtradas = [];
 let topMatches = {};
-let finalTopMatches = {};
 let partial = false;
 
 let searching = false;
@@ -101,7 +109,7 @@ function sendProgress(query){
     lastSearchTime,
     topMatches
   }});
-  console.log("Progress con "+query)
+  console.log(`Search progress con '${query}'`)
 }
 
 let nextTick = 0;
@@ -172,6 +180,7 @@ parseData(sampleData)
 function parseData(data){
   items = [];
   log("Preprocessing " + data.length + " strings...");
+
   let lastStatus = new Date();
   _.each(data, function(search, index) {
     // let [userId, search] = line.split("\t")
