@@ -1,5 +1,5 @@
 importScripts('underscore-min.js');
-importScripts('data/sample.js');
+importScripts('sample-data.js');
 
 const stopWordsList = [
   "de", "del", "con",
