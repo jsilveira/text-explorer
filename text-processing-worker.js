@@ -79,7 +79,7 @@ self.addEventListener('message', function (msg) {
     case 'loadFile':
       try {
         log("Parsing file as JSON...")
-        parseData(JSON.parse(msg.data.fileText))
+        parseDataObject(JSON.parse(msg.data.fileText))
       } catch (err){
         log("Error loading file: "+err)
       }
@@ -103,7 +103,7 @@ let re = new RegExp();
 
 function sendProgress(query){
   self.postMessage({action: 'search-result', res: {
-    filtradas: filtradas.slice(0, 200000),
+    filtradas: filtradas.slice(0, 500000),
     filtradasLength: filtradas.length,
     partial,
     lastSearchTime,
@@ -175,14 +175,17 @@ function search(regex) {
 
 
 // Sample data loaded
-parseData(sampleData)
+parseDataObject(sampleData)
 
-function parseData(data){
+function parseDataObject(data){
   items = [];
   log("Preprocessing " + data.length + " strings...");
 
   let lastStatus = new Date();
   _.each(data, function(search, index) {
+    if(_.isObject(search)){
+      search = _.map(_.values(search), v => v.toString()).join(" ||| ")
+    }
     // let [userId, search] = line.split("\t")
     try {
       let cleanSearch = removeDiacriticsCasero(search || "").trim()
@@ -208,7 +211,7 @@ function parseData(data){
 
 function loadFile(input) {
   log("Loading huge file...");
-  getJSON(input, parseData, function(e) {
+  getJSON(input, parseDataObject, function(e) {
     log(`Error loading '${input}': ${e.toString()}`)
   });
 }

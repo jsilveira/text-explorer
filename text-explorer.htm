@@ -70,7 +70,7 @@
 
   <div class="row">
     <div class="col-md-6">
-      <input type="text" ng-class="{invalid: invalidRegexp}" class="form-control" placeholder="Filtrar..."
+      <input type="text" ng-class="{invalid: invalidRegexp}" class="form-control" placeholder="Filter with a regexp..."
              style="width: 90%;"
              ng-model="filtroTexto">
     </div>
@@ -125,13 +125,11 @@
     </div>
   </div>
   <div ng-show="filtradas.length > shownRows" class="btn btn-primary btn-large" ng-click="shownRows = shownRows + 50">
-    Ver 50 resultados más
+    Show 50 more
   </div>
 </div>
 
 <script>
-  var progress = document.querySelector('.percent');
-
   function readFileAsText(file, cbk) {
     var reader = new FileReader();
 
