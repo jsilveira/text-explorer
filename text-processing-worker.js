@@ -1,4 +1,5 @@
 importScripts('underscore-min.js');
+importScripts('data/sample.js');
 
 const stopWordsList = [
   "de", "del", "con",
@@ -164,26 +165,26 @@ function search(regex) {
   resume(START, regex.toString());
 }
 
-log("Loading huge file...");
 
-let input = "input/sample.json";
+// Sample data loaded
+parseData(sampleData)
 
-getJSON(input, function (data) {
+function parseData(data){
   items = [];
   log("Preprocessing " + data.length + " strings...");
   let lastStatus = new Date();
-  _.each(data, function (search, index) {
+  _.each(data, function(search, index) {
     // let [userId, search] = line.split("\t")
     try {
       let cleanSearch = removeDiacriticsCasero(search || "").trim()
       // cleanSearch = removeStopWords(cleanSearch)
       items.push(cleanSearch)
-    } catch(err){
+    } catch (err) {
       console.error(err, search)
     }
 
-    if(new Date() - lastStatus > 400){
-      log("Processing " + data.length + " strings... ("+(100*index/data.length).toFixed(1)+"%)");
+    if (new Date() - lastStatus > 400) {
+      log("Processing " + data.length + " strings... (" + (100 * index / data.length).toFixed(1) + "%)");
       lastStatus = new Date();
     }
   });
@@ -194,7 +195,11 @@ getJSON(input, function (data) {
   stringTest = items.slice(0, 10000);
 
   sendProgress("");
+}
 
-}, function(e){
-  log(`Error loading '${input}': ${e.toString()}`)
-});
+function loadFile(input) {
+  log("Loading huge file...");
+  getJSON(input, parseData, function(e) {
+    log(`Error loading '${input}': ${e.toString()}`)
+  });
+}

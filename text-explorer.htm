@@ -4,17 +4,11 @@
 <head>
   <meta charset="utf-8">
   <title>Text Explorer</title>
-  <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
-  <!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.2/angular.min.js"></script>-->
-  <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>&ndash;&gt;-->
-
-  <!--<link href="bootstrap.min.css" rel="stylesheet">-->
+  <link href="bootstrap.min.css" rel="stylesheet">
   <script type="text/javascript" src="angular-1.2.9.min.js"></script>
   <script src="jquery-1.10.2.min.js"></script>
 
   <script type="text/javascript" src="underscore-min.js"></script>
-  <!--<script type="text/javascript" src="defectos-javierpc.js"></script>-->
-  <!--<script type="text/javascript" src="../denunciasNHTSA20000.js"></script>-->
   <script type="text/javascript" src="text-explorer-ctrl.js"></script>
 
   <style>body {
@@ -60,19 +54,20 @@
 </head>
 <body ng-app="pruebas">
 <div ng-controller="TextExplorerCtrl" class="results">
-  <div class="row-fluid">
-    <div class="span6">
-      <input type="text" ng-class="{invalid: invalidRegexp}" placeholder="Filtrar..." style="width: 90%;"
+  <div class="row">
+    <div class="col-md-6">
+      <input type="text" ng-class="{invalid: invalidRegexp}" class="form-control" placeholder="Filtrar..."
+             style="width: 90%;"
              ng-model="filtroTexto">
     </div>
-    <div class="span6 form-inline">
-      <label>Use regexp:
+    <div class="col-md-6 form-inline">
+      <label>Use RegExp:
         <input type="checkbox" ng-model="forceRegexp"/>
       </label>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <label>
-        Radio de caracteres preview:
-        <input style="width: 50px;" type="text" ng-model="radio">
+        Max chars before/after match:
+        <input style="width: 50px;" type="text" ng-model="radio" class="form-control">
       </label>
     </div>
   </div>
@@ -86,8 +81,8 @@
     <span>&nbsp;</span>
   </h4>
 
-  <div class="resultsarea row-fluid">
-    <div class="span8">
+  <div class="resultsarea row">
+    <div class="col-md-8">
       <div ng-repeat="den in filtradas.slice(0,shownRows) track by $index" class="denuncia">
         <!--<h4>{{den.marcaAuto}} {{den.modeloAutoBase}} - <span ng-bind-html="resaltarResultado(den.titulo)"><span></h4>-->
 
@@ -95,8 +90,8 @@
         <div ng-bind-html="resaltarResultado(den)"></div>
       </div>
     </div>
-    <div class="span4">
-      <h5>Top 100 matches ({{_.keys(topMatches).length}} unique matches)</h5>
+    <div class="col-md-4">
+      <h4>Top 100 matches ({{_.keys(topMatches).length}} unique matches)</h4>
       <table style="width: 100%">
         <tr ng-repeat="tuple in topMatches.slice(0, 100)">
           <td>{{tuple['0']}}</td>
@@ -105,7 +100,7 @@
       </table>
 
       <div ng-if="_.keys(topMatches).length > 100">
-        <h5>Bottom 100 matches ({{_.keys(topMatches).length}} unique matches)</h5>
+        <h4>Bottom 100 matches ({{_.keys(topMatches).length}} unique matches)</h4>
         <table style="width: 100%">
           <tr ng-repeat="tuple in topMatches.slice(-100)">
             <td>{{tuple['0']}}</td>
