@@ -1,7 +1,7 @@
 # text-explorer
 GUI Tool that runs in Chrome to explore large text/docs/json arrays with regular expressions
 
-**Use it here:** https://jsilveira.github.io/text-explorer/text-explorer.htm dragging your JSON file*
+**Use it here:** [https://jsilveira.github.io/text-explorer/text-explorer.htm](https://jsilveira.github.io/text-explorer/text-explorer.htm) dragging your JSON file*
 
 **Right now, the json must be an array of strings. Future versions will support more data formats*
 
