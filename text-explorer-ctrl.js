@@ -123,6 +123,6 @@ function TextExplorerCtrl($scope, $sce, $timeout) {
   $scope.fileLoaded = function(fileContent, fileName){
     $scope.partial = true
     $scope.$apply(() => $scope.status = "Sending file to service worker...")
-    worker.postMessage({action: 'loadFile', fileText: fileContent}); // Send data to our worker.
+    worker.postMessage({action: 'loadFile', fileText: fileContent, fileName: fileName}); // Send data to our worker.
   }
 }

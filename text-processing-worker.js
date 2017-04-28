@@ -80,8 +80,14 @@ self.addEventListener('message', function (msg) {
       break;
     case 'loadFile':
       try {
-        log("Parsing file as JSON...")
-        parseDataObject(JSON.parse(msg.data.fileText))
+        const fileName = msg.data.fileName.toLowerCase().trim()
+        if(fileName.endsWith(".json")) {
+          log("Parsing file as JSON...")
+          parseDataObject(JSON.parse(msg.data.fileText))
+        } else {
+          log("Parsing file line by line")
+          parseDataObject(msg.data.fileText.split("\n"))
+        }
       } catch (err){
         log("Error loading file: "+err)
       }
