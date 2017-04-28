@@ -3,7 +3,7 @@ Drag a large text/json text file and start exploring it with regular expressions
 
 **Use it and try it here:** [https://jsilveira.github.io/text-explorer/text-explorer.htm](https://jsilveira.github.io/text-explorer/text-explorer.htm) dragging your JSON file*
 
-* * .json files are parsed as JSON (as one large array of strings or objects where values are the strings), any other kind of file is splitted and read line by line.
+.json files are parsed as JSON (as one large array of strings or objects where values are the strings), any other kind of file is splitted and read line by line.
 
 ![text-explorer](https://cloud.githubusercontent.com/assets/966787/25501805/606d5c8e-2b6a-11e7-806e-f385e08e2ba1.gif)
 
