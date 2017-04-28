@@ -9,9 +9,9 @@ Drag a large text/json text file and start exploring it with regular expressions
 
 ## How it works
 
-Everything runs in the client, a Google Chrome page. It loads the file in a separate service worker, and all the searches and processing runs there without blocking the UI. Searches on large files also provide instant feedback on a subset of documents so you can create and tweak your regular expression without waiting for the filter on the whole data set. None of the data leaves your local browser, nothing is uploaded.
+Everything runs in the client, a Google Chrome page. It loads the file in a separate service worker, and all the searches and processing runs there without blocking the UI. Searches on large files have instant feedback on a smaller subset of documents so you can create and tweak your regular expression without waiting for the full search on the whole data set. The data never leaves your browser, nothing is uploaded.
 
-The limit in file size is Chrome's memory. It will let you know when it's too big, by crashing. A modern laptop should handle a 100mb of text without problems.
+The only limit in file size is Chrome's memory. It will let you know when it's too big, by smoothly crashing. A modern laptop should handle at least 100mb of text with ease.
 
 ## To run your own instance
 
