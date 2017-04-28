@@ -103,6 +103,9 @@
         <!--<em ng-bind-html="resaltarResultado(den.titulo)"></em>-->
         <div ng-bind-html="resaltarResultado(den)"></div>
       </div>
+      <div ng-show="filtradas.length > shownRows" class="btn btn-primary btn-large" ng-click="shownRows = shownRows + 50">
+        Show 50 more
+      </div>
     </div>
     <div class="col-md-4">
       <h4>Top 100 matches ({{_.keys(topMatches).length}} unique matches)</h4>
@@ -123,9 +126,6 @@
         </table>
       </div>
     </div>
-  </div>
-  <div ng-show="filtradas.length > shownRows" class="btn btn-primary btn-large" ng-click="shownRows = shownRows + 50">
-    Show 50 more
   </div>
 </div>
 
