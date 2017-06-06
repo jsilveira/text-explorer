@@ -125,4 +125,15 @@ function TextExplorerCtrl($scope, $sce, $timeout) {
     $scope.$apply(() => $scope.status = "Sending file to service worker...")
     worker.postMessage({action: 'loadFile', fileText: fileContent, fileName: fileName}); // Send data to our worker.
   }
+
+  $scope.pasteText = function(){
+    promptText("Paste text here. Don't worry about the multiple lines, it'll work", function(text) {
+      if (text) {
+        $scope.$apply(() => {
+          $scope.status = "Sending text to service worker..."
+          worker.postMessage({action: 'loadFile', fileText: text, fileName: "Pasted by the user"}); // Send data to our worker.
+        })
+      }
+    })
+  }
 }

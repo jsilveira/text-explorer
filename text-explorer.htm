@@ -58,13 +58,48 @@
     padding-top: 5px;
   }
 
+  #prompt {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #prompt .dialog{
+    background-color: white;
+    box-shadow: 0px 0px 10px black;
+    border-radius: 5px;
+    padding: 10px;
+    z-index: 1;
+    top: 20%;
+    left: 20%;
+    width: 60%;
+    height: auto;
+  }
+
+  .inputfile{
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+
   </style>
 </head>
 <body ng-app="pruebas">
 <div ng-controller="TextExplorerCtrl" class="results">
   <div class="row">
-    <div id="drop_zone" class="text-center alert alert-info">Drop files here or &nbsp;&nbsp;
-      <input id="files" type="file" name="files[]"/>
+    <div id="drop_zone" class="text-center alert alert-info"><strong>Drop</strong> files here or &nbsp;&nbsp;
+      <input id="file" type="file" name="file" class="inputfile"/>
+      <label class="btn btn-primary" for="file">Choose a file</label>
+      &nbsp;&nbsp;or&nbsp;&nbsp;
+      <span class="btn btn-primary" ng-click="pasteText()">Paste text here</span>
     </div>
   </div>
 
@@ -129,7 +164,47 @@
   </div>
 </div>
 
+<div id="prompt" class="">
+  <div class="dialog">
+    <textarea class="form-control" rows="10"></textarea>
+    <div>
+      <br>
+      <a href="javascript:promptCancel()" class="btn btn-default">Cancel</a>
+      &nbsp;
+      <a href="javascript:promptDone()" class="btn btn-primary">Send pasted text</a>
+    </div>
+  </div>
+</div>
+
 <script>
+  // Home made really simple dialog
+  (function($prompt){
+    $prompt.hide()
+    var promptCallback = null;
+
+    window.promptDone = function(){
+      var text = $("textarea", $prompt).val();
+      if(text && promptCallback){
+        promptCallback(text)
+      }
+      $prompt.hide();
+    }
+
+    $prompt.keyup(e => e.keyCode == 27 ? promptCancel() : null)
+    $prompt.click(() => $prompt.hide())
+    $("div.dialog", $prompt).click((e) =>  e.stopPropagation())
+
+    window.promptCancel = function(){
+      $prompt.hide();
+    }
+
+    window.promptText = function(msg, callback){
+      promptCallback = callback
+      $prompt.show()
+      $("textarea", $prompt).focus()
+    }
+  })($("#prompt"))
+
   function readFileAsText(file, cbk) {
     var reader = new FileReader();
 
@@ -205,6 +280,6 @@
   var dropZone = document.getElementById('drop_zone');
   dropZone.addEventListener('dragover', handleDragOver, false);
   dropZone.addEventListener('drop', handleFileSelect, false);
-  document.getElementById('files').addEventListener('change', handleFileSelect, false);
+  document.getElementById('file').addEventListener('change', handleFileSelect, false);
 </script>
 </body>

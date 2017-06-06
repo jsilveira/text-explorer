@@ -141,7 +141,9 @@ function search(regex) {
       let den = items[i];
       let m = (den || "").toString().match(re);
       if (m) {
-        topMatches[m[0]] = (topMatches[m[0]] || 0) + 1;
+        for(g of m) {
+          topMatches[g] = (topMatches[g] || 0) + 1
+        }
         filtradas.push(den);
       }
 
@@ -185,22 +187,30 @@ function search(regex) {
 // Sample data loaded
 parseDataObject(sampleData)
 
+function nonCircularObjectToString(doc) {
+  if(typeof doc === "object") {
+    return _.map(_.values(doc), nonCircularObjectToString).join(" ||| ")
+  } else {
+    return (doc || "").toString()
+  }
+}
+
 function parseDataObject(data){
   items = [];
   log("Preprocessing " + data.length + " strings...");
 
   let lastStatus = new Date();
-  _.each(data, function(search, index) {
-    if(_.isObject(search)){
-      search = _.map(_.values(search), v => v.toString()).join(" ||| ")
+  _.each(data, function(doc, index) {
+    if(_.isObject(doc)){
+      doc = nonCircularObjectToString(doc)
     }
 
     try {
-      let cleanSearch = removeDiacriticsCasero(search || "").trim()
+      let cleanSearch = removeDiacriticsCasero(doc || "").trim()
       // cleanSearch = removeStopWords(cleanSearch)
       items.push(cleanSearch)
     } catch (err) {
-      console.error(err, search)
+      console.error(err, doc)
     }
 
     if (new Date() - lastStatus > 400) {
